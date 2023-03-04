@@ -1,0 +1,29 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml">
+
+    <div>
+        <table class="table table-hover">
+            <thead>
+                <tr>No. </tr>
+                <tr>Products</tr>
+                <tr>Address Details</tr>
+                <tr>Date</tr>
+                <tr>Price</tr>
+            </thead>
+            <tbody>
+                <tr th:each="o, counter : ${orders}">
+                    <td th:text="${counter.count}"></td>
+                    <td th:each="p : ${o.getProductList()}" th:text="${p.getName()}"></td>
+                    <td th:text="${o.getAddress()}"></td>
+                    <td th:text="${o.getOrderCreated()}"></td>
+                    <td th:text="${o.getTotalPrice()}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <a href="/products">Continue Shopping</a>
+    </div>
+
+
+</th:block>

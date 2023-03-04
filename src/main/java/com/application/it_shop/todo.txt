@@ -1,0 +1,17 @@
+showing the images in the edit section of products.
+when finishing editing some product, after submit, save it on the i-th position as it was before.
+fix the number of same products in user's cart.
+
+
+
+
+js alert - pop up message countdown
+
+..later...
+number of pages for showing the products [75 line - ShoppingCartServiceImpl]
+number of same products ... [75 line - ShoppingCartServiceImpl]
+
+
+
+
+sign in opetions google, github?:P

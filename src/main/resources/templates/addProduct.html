@@ -1,0 +1,60 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml">
+
+    <form method="POST" th:action="@{'/products/add/{id}' (id=${product?.getId()})}" enctype="multipart/form-data">
+        <div>
+            <label for="name">Name</label>
+            <input type="text"
+                   name="name"
+                   id="name"
+                   th:value="${product?.getName()}"
+                   required>
+        </div>
+
+        <div>
+            <label for="myfile">Image</label>
+            <input type="file" id="myfile"
+                   required
+                   name="myfile"
+                   accept="image/*"
+                   th:value="${product?.image}"
+                   onchange="validateFileType()"/>
+        </div>
+
+        <div>
+            <label for="price">Price</label>
+            <input type="number" id="price" required name="price" th:value="${product?.getPrice()}">
+        </div>
+
+        <div>
+            <select id="brandId" name="brandId">
+                <option value="">All</option>
+                <option th:each="b : ${brands}"
+                        th:text="${b?.getName()}"
+                        th:value="${b?.getId()}"
+                        th:selected="${product != null ? product.getBrand().getName().equals(b.getName) : false}"></option>
+            </select>
+        </div>
+
+        <button type="submit">
+            Add Product
+        </button>
+        <a href="/products">Back</a>
+
+    </form>
+
+
+    <script>
+        function validateFileType() {
+            var fileName = document.getElementById("image").value;
+            var idxDot = fileName.lastIndexOf(".") + 1;
+            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+
+            if (!(extFile == "jpg" || extFile == "jpeg" || extFile == "png")) {
+                alert("Only jpg/jpeg and pngs are acceptable!");
+                document.getElementById("image").value = "";
+                return;
+            } else {
+            }
+        }
+    </script>
+</th:block>

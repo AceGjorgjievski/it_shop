@@ -1,0 +1,18 @@
+<header xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <a th:href="@{'/home'}">LOGO(it shop)</a>
+    <a th:href="@{'/home'}">Home</a>
+    <a th:href="@{'/products'}">Products</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{'/cart'}">Cart</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{'/order'}">My Orders</a>
+
+    <th:block sec:authorize="isAuthenticated()">
+        <a sec:authorize="!hasAuthority('USER')" th:href="@{'/admin1'}">Admin</a>
+    </th:block>
+
+<!--    <a th:href="@{'/admin'}">Admin</a>-->
+
+
+    <a sec:authorize="isAuthenticated()" th:href="@{'/logout'}">Log out</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{'/profile'}">Profile</a>
+    <a sec:authorize="!isAuthenticated()" th:href="@{'/login'}">Login</a>
+</header>

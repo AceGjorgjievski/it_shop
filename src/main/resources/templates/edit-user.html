@@ -1,0 +1,66 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml" >
+    <div>
+        <h2>USER PROFILE FOR:
+            <th:block th:if="${user != null}" th:text="${user.getUsername()}">
+            </th:block>
+        </h2>
+    </div>
+
+
+    <form method="post" action="/admin1/updateProfile">
+
+        <input type="hidden" name="id" th:value="(${user} != null ? ${user.getId()} : '')">
+        <div>
+            <label for="name">Name</label>
+            <input type="text"
+                    id="name"
+                    name="name"
+                    th:value="${user?.getName()}"
+                    required>
+        </div>
+
+        <div>
+            <label for="surname">Surname</label>
+            <input type="text"
+                    id="surname"
+                    name="surname"
+                    th:value="${user?.getSurname()}"
+                    required>
+        </div>
+
+        <div>
+            <label for="username">Username</label>
+            <input type="text"
+                   id="username"
+                   name="username"
+                   th:value="${user?.getUsername()}"
+                   required>
+        </div>
+
+
+        <div>
+            <label for="dateOfBirth">Date of Birth</label>
+            <input type="date"
+                   id="dateOfBirth"
+                   name="bdate"
+                   th:value="${user?.dateOfBirth}"
+                   required>
+        </div>
+
+        <div>
+            <label for="role">Role</label>
+            <select name="role" id="role">
+                <option th:each="r : ${roles}"
+                        th:if="${user} != null"
+                        th:selected="${user.getRole() != null &&
+                                    r == user.getRole()}"
+                        th:value="${r}"
+                        th:text="${r}"></option>
+            </select>
+        </div>
+
+        <button type="submit">Submit</button>
+        <a href="/admin1">Back</a>
+    </form>
+
+</th:block>

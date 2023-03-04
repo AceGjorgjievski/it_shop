@@ -1,0 +1,81 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml">
+    <div>
+        <h2>USER CART</h2>
+    </div>
+
+    <div th:if="${param.SuccessfullyRemovedFromCart != null}" style="color: green">
+        Successfully removed!
+    </div>
+
+    <div>
+        <table class="table table-hover">
+            <tr>
+                <th>Product Image</th>
+                <th>Product Name</th>
+                <th>Product Brand</th>
+                <th>Product Quantity</th>
+                <th>Product Price</th>
+            </tr>
+            <tr th:each="cp : ${productsInCart}">
+                <td><img alt="" th:src="*{'data:image/jpeg;base64,'+{cp.getImage()}}"
+                         style="width: 100px;height: 100px;"></td>
+                <td th:text="${cp?.getName()}"></td>
+                <td th:text="${cp?.getBrand().getName()}"></td>
+                <td th:text="${cp?.getQuantity()}"></td>
+                <td th:text="${cp?.getPrice()}"></td>
+                <td sec:authorize="isAuthenticated()">
+                    <th:block sec:authorize="isAuthenticated()">
+                        <form th:method="delete" th:action="@{'/cart/{id}/remove' (id=${cp?.getId()})}"
+                              onclick="return confirmQ()">
+                            <button>Remove</button>
+                        </form>
+                    </th:block>
+                </td>
+
+            </tr>
+            <tr>
+                <td th:text="${totalPrice}" class="total-price" id="price"></td>
+                <td>
+                    <th:block>
+                        <form method="post" th:action="@{'/order/prepareOrder'}">
+                            <button class="button" id="myButton" disabled>Make Order</button>
+                        </form>
+                    </th:block>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div>
+        <a href="/products">Continue Shopping</a>
+    </div>
+
+    <script th:inline="javascript">
+        function confirmQ() {
+            let text = "Are you sure for removing this product from you cart?";
+            if (confirm(text) == true) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        var price;
+        /*<![CDATA[*/
+        price = /*[[${totalPrice}]]*/ "Price";
+        /*]]>*/
+
+
+        let button = document.getElementById("myButton");
+        if(price > 0) {
+            button.disabled = false;
+        } else {
+            button.disabled = true;
+        }
+        //this ^ in 1 line: button.disabled = !(price > 0);
+
+
+    </script>
+
+
+</th:block>

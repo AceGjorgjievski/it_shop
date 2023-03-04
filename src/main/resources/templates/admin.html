@@ -1,0 +1,56 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml">
+    <div>
+        <h2>ADMIN PAGE</h2>
+    </div>
+
+    <div th:if="${param.UserNotFound != null}" style="color: red">
+        That user does not exist!
+    </div>
+    <div th:if="${param.UserDeletedSuccessfully != null}" style="color: green">
+        User Deleted Successfully!
+    </div>
+
+
+    <table>
+        <tr>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Date of Birth</th>
+        </tr>
+        <tr th:each="u, counter : ${users}">
+            <td th:text="${counter.count}"></td>
+            <td th:text="${u.getName()}"></td>
+            <td th:text="${u.getSurname()}"></td>
+            <td th:text="${u.getUsername()}"></td>
+            <td th:text="${u.getEmail()}"></td>
+            <td th:text="${u.getDateOfBirth()}"></td>
+            <td th:text="${u.getRole()}"></td>
+            <td sec:authorize="hasAuthority('ADMIN')">
+               <th:block>
+                   <form method="delete" onclick="return validate()"
+                         th:action="@{'/admin1/user/{id}/delete' (id=${u?.getId()})}">
+                       <button>Delete</button>
+                   </form>
+                   <a th:href="@{'/admin1/user/{id}/edit'(id=${u?.getId()})}">Edit</a>
+               </th:block>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        function validate() {
+            let text = "Are you sure for removing this user from you it-shop?";
+            if(confirm(text) == true) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
+
+
+</th:block>
+

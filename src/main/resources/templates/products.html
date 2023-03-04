@@ -1,0 +1,61 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml">
+    <h2>Products page! (for listing)</h2>
+
+    <div>
+        <form id="filter-form">
+            <label for="name">Search by name: </label>
+            <input id="name" type="text" name="productName">
+
+            <label for="brand">Search by brand: </label>
+            <input id="brand" type="text" name="productBrand">
+
+            <label for="price">Search by price:</label>
+            <input id="price" type="number" name="productPrice">
+
+            <button type="submit" id="filter">Search</button>
+        </form>
+    </div>
+
+    <th:block sec:authorize="!hasAuthority('USER')">
+        <a sec:authorize="isAuthenticated()" href="/products/add">Add Product</a>
+    </th:block>
+
+    <div th:if="${param.SuccessfullyAdded != null}" style="color: green">
+        You have successfully added a new product!
+    </div>
+
+    <div th:if="${param.SuccessfullyAddedToCart != null}" style="color: green">
+        Successfully Added to Cart!
+    </div>
+
+    <table>
+        <tr>
+            <th>Products Image</th>
+            <th>Products Name</th>
+            <th>Products Brand</th>
+            <th>Products Price</th>
+        </tr>
+        <tr th:each="p : ${productsList}">
+            <td><img alt="" th:src="*{'data:image/jpeg;base64,'+{p.getImage()}}"
+                     style="width: 100px;height: 100px;"></td>
+            <td th:text="${p?.getName()}"></td>
+            <td th:text="${p?.getBrand()?.getName()}"></td>
+            <td th:text="${p?.getPrice()}"></td>
+            <td >
+                <th:block sec:authorize="isAuthenticated()">
+                    <form th:method="delete" sec:authorize="!hasAuthority('USER')"
+                          th:action="@{'/products/{id}/delete' (id=${p?.getId()})}">
+                        <button>Delete</button>
+                    </form>
+                    <a sec:authorize="!hasAuthority('USER')"
+                       th:href="@{'/products/{id}/edit' (id=${p?.getId()})}">Edit</a>
+                </th:block>
+                <a th:href="@{'/cart/{id}/add' (id=${p?.getId()})}">Add To Cart</a>
+            </td>
+        </tr>
+    </table>
+
+
+</th:block>
+
+

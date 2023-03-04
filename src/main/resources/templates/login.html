@@ -1,0 +1,30 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml" >
+    <div>
+        <form method="post" action="/login">
+            <div>
+                <label for="username">Username</label>
+                <input type="text"
+                       id="username"
+                       name="username"
+                       placeholder="Username"
+                       required>
+            </div>
+
+            <div>
+                <label for="password">Password</label>
+                <input type="password"
+                       id="password"
+                       name="password"
+                       placeholder="Password"
+                       required>
+            </div>
+            <div th:if="${param.error != null} " th:text="${param.error}" style="color: red"></div>
+            <div th:if="${param.SuccessfullyRegistered != null}" style="color: green">You have registered successfully!
+                You can log in now !
+            </div>
+
+            <button type="submit"> Log in</button>
+            <a th:href="@{'/register'}">Register</a>
+        </form>
+    </div>
+</th:block>
